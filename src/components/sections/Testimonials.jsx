@@ -1,31 +1,34 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Star, ArrowLeft, ArrowRight } from 'lucide-react';
+import { GradientOrbs } from '../ui/GradientOrbs';
+import { Sparkles } from '../ui/Sparkles';
+import { clientAvatars } from '../../utils/placeholders';
 
 const journals = [
     {
-        author: "Eleanor Vance",
+        author: "Lorem Ipsum",
         role: "Private Client",
         title: "The Aesthetic Journey",
-        content: "The attention to detail at Thorne Clinical is unparalleled. They didn't just fix my teeth; they restored my confidence with a surgical precision that felt more like art than medicine.",
+        content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.",
         rating: 5,
-        img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80"
+        img: clientAvatars.client1
     },
     {
-        author: "Julian Thorne (No Relation)",
+        author: "Dolor Sit",
         role: "Restorative Patient",
         title: "Biological Integrity",
-        content: "A transformative experience. The biological approach to dentistry here gave me peace of mind that my long-term systemic health was being prioritized alongside my smile.",
+        content: "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit.",
         rating: 5,
-        img: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80"
+        img: clientAvatars.client2
     },
     {
-        author: "Clara S.",
+        author: "Amet Consectetur",
         role: "Orthodontic Client",
         title: "Seamless Innovation",
-        content: "The digital workflow is so smooth. From the 3D scans to the final result, I felt I was in the hands of true visionaries. The clinic itself is a haven of tranquility.",
+        content: "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae.",
         rating: 5,
-        img: "https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80"
+        img: clientAvatars.client3
     }
 ];
 
@@ -33,7 +36,15 @@ export function Testimonials() {
     const [active, setActive] = useState(0);
 
     return (
-        <section id="testimonials" className="py-32 bg-bg-teal">
+        <section id="testimonials" className="py-32 relative overflow-hidden gradient-services">
+            {/* Subtle Animated Background Elements */}
+            <div className="absolute inset-0 opacity-20">
+                <GradientOrbs />
+            </div>
+            <div className="absolute inset-0 opacity-30">
+                <Sparkles count={10} />
+            </div>
+            <div className="absolute inset-0 bg-white/60 -z-10" />
             <div className="container mx-auto px-4 md:px-12">
                 <div className="grid lg:grid-cols-2 gap-20 items-center">
 
@@ -67,7 +78,7 @@ export function Testimonials() {
                                 animate={{ opacity: 1, scale: 1 }}
                                 exit={{ opacity: 0, scale: 0.95 }}
                                 transition={{ duration: 0.5 }}
-                                className="clinical-card p-12 md:p-16 relative bg-white inner-glow"
+                                className="clinical-card p-12 md:p-16 relative bg-white/95 backdrop-blur-sm inner-glow border-2 border-white/50 shadow-2xl"
                             >
                                 <p className="text-accent-gold font-bold tracking-[0.2em] uppercase text-xs mb-6">
                                     Journal Entry #{journals[active].author.split(' ')[0]}
@@ -78,7 +89,21 @@ export function Testimonials() {
                                 </p>
 
                                 <div className="flex items-center gap-5 pt-10 border-t border-border-thin">
-                                    <img src={journals[active].img} alt={journals[active].author} className="w-16 h-16 rounded-full grayscale object-cover" />
+                                    <img 
+                                        src={journals[active].img} 
+                                        alt={journals[active].author} 
+                                        className="w-16 h-16 rounded-full grayscale object-cover" 
+                                        loading="lazy"
+                                        onError={(e) => {
+                                            const initials = journals[active].author.split(' ').map(n => n[0]).join('');
+                                            e.target.src = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(`
+                                                <svg width="150" height="150" xmlns="http://www.w3.org/2000/svg">
+                                                    <rect width="150" height="150" fill="#${active === 0 ? '6366F1' : active === 1 ? '8B5CF6' : 'EC4899'}"/>
+                                                    <text x="50%" y="50%" font-family="Arial" font-size="40" font-weight="bold" fill="white" text-anchor="middle" dominant-baseline="middle">${initials}</text>
+                                                </svg>
+                                            `)}`;
+                                        }}
+                                    />
                                     <div>
                                         <p className="font-bold text-accent-navy">{journals[active].author}</p>
                                         <p className="text-xs text-text-light font-bold tracking-widest uppercase">{journals[active].role}</p>

@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { Float, MeshTransmissionMaterial, Sphere, RoundedBox } from '@react-three/drei';
+import { MeshTransmissionMaterial, Sphere, Cylinder, Cone } from '@react-three/drei';
 import * as THREE from 'three';
 
 export function AbstractTooth() {
@@ -10,68 +10,118 @@ export function AbstractTooth() {
     useFrame((state) => {
         const t = state.clock.getElapsedTime();
         if (toothRef.current) {
-            toothRef.current.rotation.y = t * 0.2;
-            toothRef.current.rotation.x = Math.sin(t * 0.5) * 0.1;
+            toothRef.current.rotation.y = t * 0.15;
+            toothRef.current.rotation.x = Math.sin(t * 0.3) * 0.05;
         }
     });
 
     return (
         <group ref={toothRef}>
-            <AnatomicalMolar />
+            <RealisticTooth />
         </group>
     );
 }
 
-function AnatomicalMolar() {
+function RealisticTooth() {
+    // More realistic tooth material - white with slight translucency
     const enamelMaterial = {
-        transmission: 0.9,
-        thickness: 1.5,
-        roughness: 0.05,
-        ior: 1.5,
-        chromaticAberration: 0.04,
-        anisotropy: 0.1,
-        distortion: 0.0,
-        distortionScale: 0.5,
-        temporalDistortion: 0.0,
-        clearcoat: 1,
-        attenuationDistance: 0.5,
+        transmission: 0.3,
+        thickness: 0.8,
+        roughness: 0.1,
+        ior: 1.4,
+        chromaticAberration: 0.02,
+        anisotropy: 0.05,
+        clearcoat: 0.8,
+        attenuationDistance: 1,
         attenuationColor: '#ffffff',
-        color: '#f8fafc',
+        color: '#fefefe',
+        metalness: 0.1,
     };
 
     return (
-        <group scale={1.8}>
-            {/* Main Crown Base - Rounded and Organic */}
-            <RoundedBox args={[1.6, 1.2, 1.6]} radius={0.5} smoothness={4}>
-                <MeshTransmissionMaterial {...enamelMaterial} />
-            </RoundedBox>
+        <group scale={2.2}>
+            {/* Main Crown - More tooth-like shape */}
+            <mesh position={[0, 0.3, 0]}>
+                <boxGeometry args={[1.2, 0.8, 1.0]} />
+                <meshStandardMaterial 
+                    color="#fefefe" 
+                    roughness={0.2}
+                    metalness={0.1}
+                    transparent
+                    opacity={0.95}
+                />
+            </mesh>
 
-            {/* Anatomical Cusps (The "Bumps" on a Molar) */}
-            <group position={[0, 0.5, 0]}>
-                {/* Four main cusp mounds */}
-                <Sphere args={[0.45, 16, 16]} position={[0.4, 0.1, 0.4]}>
-                    <MeshTransmissionMaterial {...enamelMaterial} />
+            {/* Top Cusps - Four main cusps of a molar */}
+            <group position={[0, 0.7, 0]}>
+                {/* Mesiobuccal cusp */}
+                <Sphere args={[0.25, 16, 16]} position={[0.3, 0, 0.3]}>
+                    <meshStandardMaterial 
+                        color="#fefefe" 
+                        roughness={0.15}
+                        metalness={0.1}
+                    />
                 </Sphere>
-                <Sphere args={[0.45, 16, 16]} position={[-0.4, 0.1, 0.4]}>
-                    <MeshTransmissionMaterial {...enamelMaterial} />
+                {/* Distobuccal cusp */}
+                <Sphere args={[0.25, 16, 16]} position={[-0.3, 0, 0.3]}>
+                    <meshStandardMaterial 
+                        color="#fefefe" 
+                        roughness={0.15}
+                        metalness={0.1}
+                    />
                 </Sphere>
-                <Sphere args={[0.45, 16, 16]} position={[0.4, 0.1, -0.4]}>
-                    <MeshTransmissionMaterial {...enamelMaterial} />
+                {/* Mesiolingual cusp */}
+                <Sphere args={[0.25, 16, 16]} position={[0.3, 0, -0.3]}>
+                    <meshStandardMaterial 
+                        color="#fefefe" 
+                        roughness={0.15}
+                        metalness={0.1}
+                    />
                 </Sphere>
-                <Sphere args={[0.45, 16, 16]} position={[-0.4, 0.1, -0.4]}>
-                    <MeshTransmissionMaterial {...enamelMaterial} />
-                </Sphere>
-
-                {/* Central Fossa (The valley between cusps) */}
-                <Sphere args={[0.3, 16, 16]} position={[0, -0.1, 0]}>
-                    <MeshTransmissionMaterial {...enamelMaterial} />
+                {/* Distolingual cusp */}
+                <Sphere args={[0.25, 16, 16]} position={[-0.3, 0, -0.3]}>
+                    <meshStandardMaterial 
+                        color="#fefefe" 
+                        roughness={0.15}
+                        metalness={0.1}
+                    />
                 </Sphere>
             </group>
 
-            {/* Subtle Bottom Taper (Start of root neck) */}
-            <RoundedBox args={[1.4, 0.4, 1.4]} radius={0.4} position={[0, -0.6, 0]}>
-                <MeshTransmissionMaterial {...enamelMaterial} />
-            </RoundedBox>
+            {/* Root - Tapered cylinder */}
+            <Cylinder 
+                args={[0.4, 0.2, 1.2, 8]} 
+                position={[0, -0.4, 0]}
+                rotation={[0, 0, 0]}
+            >
+                <meshStandardMaterial 
+                    color="#f5f5f5" 
+                    roughness={0.3}
+                    metalness={0.05}
+                />
+            </Cylinder>
+
+            {/* Root tips - Two roots for a molar */}
+            <Cone 
+                args={[0.15, 0.6, 8]} 
+                position={[0.25, -1.0, 0.1]}
+                rotation={[0.1, 0, 0.1]}
+            >
+                <meshStandardMaterial 
+                    color="#f0f0f0" 
+                    roughness={0.4}
+                />
+            </Cone>
+            <Cone 
+                args={[0.15, 0.6, 8]} 
+                position={[-0.25, -1.0, 0.1]}
+                rotation={[0.1, 0, -0.1]}
+            >
+                <meshStandardMaterial 
+                    color="#f0f0f0" 
+                    roughness={0.4}
+                />
+            </Cone>
         </group>
     );
 }

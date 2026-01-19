@@ -2,6 +2,8 @@ import React, { useState, useRef, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import beforeImg from '../../assets/perfect_smile.png';
 import afterImg from '../../assets/perfect_smile.png'; // Re-using for demo, normally would be different
+import { GradientOrbs } from '../ui/GradientOrbs';
+import { Sparkles } from '../ui/Sparkles';
 
 export function BeforeAfter() {
     const [sliderPosition, setSliderPosition] = useState(50);
@@ -22,7 +24,15 @@ export function BeforeAfter() {
     const handleTouchMove = (e) => handleMove(e.touches[0].clientX);
 
     return (
-        <section className="py-32 bg-bg-primary relative">
+        <section id="before-after" className="py-32 relative gradient-hero">
+            {/* Subtle Animated Background Elements */}
+            <div className="absolute inset-0 opacity-20">
+                <GradientOrbs />
+            </div>
+            <div className="absolute inset-0 opacity-30">
+                <Sparkles count={12} />
+            </div>
+            <div className="absolute inset-0 bg-white/50 -z-10" />
             <div className="container mx-auto px-4 md:px-12">
                 <div className="text-center max-w-3xl mx-auto mb-20">
                     <span className="section-tag">Case Study</span>
@@ -43,22 +53,73 @@ export function BeforeAfter() {
                     onTouchMove={handleTouchMove}
                     onTouchEnd={handleMouseUp}
                 >
-                    {/* Before Image */}
+                    {/* Before Image - Stained, Dark, Less Vibrant */}
                     <div className="absolute inset-0">
-                        <img src={beforeImg} alt="Before" className="w-full h-full object-cover grayscale brightness-75" />
-                        <div className="absolute top-8 left-8 bg-white/40 backdrop-blur-md px-6 py-2 rounded-full border border-white/30">
-                            <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-accent-navy">Pre-Clinical</span>
+                        <div className="relative w-full h-full">
+                            <img 
+                                src={beforeImg} 
+                                alt="Before Treatment" 
+                                className="w-full h-full object-cover grayscale brightness-[0.6] contrast-75 saturate-50" 
+                                style={{
+                                    filter: 'grayscale(80%) brightness(0.6) contrast(0.75) saturate(50%) sepia(20%)',
+                                }}
+                                loading="lazy"
+                                onError={(e) => {
+                                    console.error('Failed to load before image');
+                                    e.target.style.display = 'none';
+                                }}
+                            />
+                            {/* Overlay to simulate stains/discoloration */}
+                            <div className="absolute inset-0 bg-gradient-to-br from-yellow-900/20 via-transparent to-brown-900/15 mix-blend-multiply" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-gray-900/10 to-transparent" />
+                        </div>
+                        <div className="absolute top-8 left-8 bg-red-500/80 backdrop-blur-md px-6 py-2 rounded-full border border-red-300/50 shadow-lg">
+                            <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-white">Pre-Clinical</span>
+                        </div>
+                        {/* Before indicators */}
+                        <div className="absolute bottom-8 left-8 bg-white/90 backdrop-blur-md px-4 py-2 rounded-lg border border-red-200 hidden md:block">
+                            <p className="text-[9px] font-bold text-red-600 uppercase tracking-wider mb-1">Before Issues</p>
+                            <ul className="text-[8px] text-gray-600 space-y-0.5">
+                                <li>• Stained teeth</li>
+                                <li>• Misalignment</li>
+                                <li>• Discoloration</li>
+                            </ul>
                         </div>
                     </div>
 
-                    {/* After Image */}
+                    {/* After Image - Bright, Perfect, Vibrant */}
                     <div
                         className="absolute inset-0 overflow-hidden"
                         style={{ clipPath: `inset(0 ${100 - sliderPosition}% 0 0)` }}
                     >
-                        <img src={afterImg} alt="After" className="w-full h-full object-cover" />
-                        <div className="absolute top-8 left-8 bg-accent-navy/80 backdrop-blur-md px-6 py-2 rounded-full border border-white/20">
+                        <div className="relative w-full h-full">
+                            <img 
+                                src={afterImg} 
+                                alt="After Treatment" 
+                                className="w-full h-full object-cover brightness-110 contrast-110 saturate-110" 
+                                style={{
+                                    filter: 'brightness(1.1) contrast(1.1) saturate(1.1)',
+                                }}
+                                loading="lazy"
+                                onError={(e) => {
+                                    console.error('Failed to load after image');
+                                    e.target.style.display = 'none';
+                                }}
+                            />
+                            {/* Subtle glow effect for perfect smile */}
+                            <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-blue-100/10" />
+                        </div>
+                        <div className="absolute top-8 left-8 bg-green-500/80 backdrop-blur-md px-6 py-2 rounded-full border border-green-300/50 shadow-lg">
                             <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-white">Post-Clinical</span>
+                        </div>
+                        {/* After indicators */}
+                        <div className="absolute bottom-8 left-8 bg-white/90 backdrop-blur-md px-4 py-2 rounded-lg border border-green-200 hidden md:block">
+                            <p className="text-[9px] font-bold text-green-600 uppercase tracking-wider mb-1">After Results</p>
+                            <ul className="text-[8px] text-gray-600 space-y-0.5">
+                                <li>✓ Perfect alignment</li>
+                                <li>✓ Bright white smile</li>
+                                <li>✓ Restored confidence</li>
+                            </ul>
                         </div>
                     </div>
 
@@ -78,9 +139,13 @@ export function BeforeAfter() {
                         </div>
                     </div>
 
-                    <div className="absolute bottom-8 right-8 bg-white/80 backdrop-blur-xl px-8 py-5 rounded-3xl border border-white max-w-[240px] hidden md:block">
-                        <p className="text-[10px] font-bold tracking-widest text-text-light mb-2 uppercase">Diagnostic Note</p>
-                        <p className="font-serif text-sm italic leading-relaxed text-accent-navy">"Restoration of vertical dimension with full-arch porcelain refinement."</p>
+                    <div className="absolute bottom-8 right-8 bg-gradient-to-br from-blue-500/90 to-purple-500/90 backdrop-blur-xl px-8 py-5 rounded-3xl border border-white/30 max-w-[280px] hidden md:block text-white shadow-xl">
+                        <p className="text-[10px] font-bold tracking-widest text-white/90 mb-2 uppercase">Transformation Results</p>
+                        <p className="font-serif text-sm italic leading-relaxed text-white mb-3">"Complete smile restoration with advanced cosmetic dentistry techniques."</p>
+                        <div className="flex items-center gap-2 text-xs">
+                            <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
+                            <span className="text-white/90">100% Patient Satisfaction</span>
+                        </div>
                     </div>
                 </div>
             </div>

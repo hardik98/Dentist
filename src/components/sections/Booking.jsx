@@ -2,16 +2,24 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Calendar, Clock, ChevronRight } from 'lucide-react';
 import { format } from 'date-fns';
+import { GradientOrbs } from '../ui/GradientOrbs';
+import { Sparkles } from '../ui/Sparkles';
 
 export function Booking() {
     const [submitted, setSubmitted] = useState(false);
 
     return (
-        <section id="booking" className="py-32 bg-bg-primary overflow-hidden relative">
-            {/* Background Decor */}
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_right,var(--color-bg-accent)_0%,transparent_50%)] opacity-30 pointer-events-none" />
+        <section id="booking" className="py-32 overflow-hidden relative gradient-hero">
+            {/* Subtle Animated Background Elements */}
+            <div className="absolute inset-0 opacity-20">
+                <GradientOrbs />
+            </div>
+            <div className="absolute inset-0 opacity-30">
+                <Sparkles count={12} />
+            </div>
+            <div className="absolute inset-0 bg-white/50 -z-10" />
             <div className="container mx-auto px-4 md:px-12">
-                <div className="max-w-6xl mx-auto clinical-card bg-white p-8 md:p-20 overflow-hidden relative">
+                <div className="max-w-6xl mx-auto clinical-card bg-white/95 backdrop-blur-sm p-8 md:p-20 overflow-hidden relative border-2 border-white/50 shadow-2xl">
 
                     {/* Background Texture */}
                     <div className="absolute top-0 right-0 w-1/3 h-full bg-[#f8fafc] -z-10 translate-x-20 rotate-12" />
@@ -53,11 +61,11 @@ export function Booking() {
                                     <div className="grid md:grid-cols-2 gap-8">
                                         <div className="space-y-2">
                                             <label className="text-[10px] font-bold tracking-widest uppercase text-text-light">Full Name</label>
-                                            <input type="text" className="w-full bg-transparent border-b border-border-thin py-3 focus:outline-none focus:border-accent-navy transition-colors font-serif text-xl italic" placeholder="Aris Thorne" required />
+                                            <input type="text" className="w-full bg-transparent border-b border-border-thin py-3 focus:outline-none focus:border-accent-navy transition-colors font-serif text-xl italic" placeholder="John Doe" required />
                                         </div>
                                         <div className="space-y-2">
                                             <label className="text-[10px] font-bold tracking-widest uppercase text-text-light">Electronic Mail</label>
-                                            <input type="email" className="w-full bg-transparent border-b border-border-thin py-3 focus:outline-none focus:border-accent-navy transition-colors font-serif text-xl italic" placeholder="aris@luxury.com" required />
+                                            <input type="email" className="w-full bg-transparent border-b border-border-thin py-3 focus:outline-none focus:border-accent-navy transition-colors font-serif text-xl italic" placeholder="john@example.com" required />
                                         </div>
                                     </div>
 

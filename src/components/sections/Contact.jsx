@@ -1,12 +1,20 @@
 import React from 'react';
 import { MapPin, Phone, Mail, Instagram, Linkedin, ArrowUpRight } from 'lucide-react';
+import { GradientOrbs } from '../ui/GradientOrbs';
+import { Sparkles } from '../ui/Sparkles';
 
 export function Contact() {
     return (
-        <footer className="bg-bg-accent border-t border-border-thin pt-32 pb-16 relative overflow-hidden">
-            {/* Background Decor */}
-            <div className="absolute top-0 left-0 w-full h-full bg-white opacity-40 pointer-events-none" />
-            <div className="container mx-auto px-4 md:px-12">
+        <footer id="contact" className="border-t border-white/30 pt-32 pb-16 relative overflow-hidden gradient-hero">
+            {/* Subtle Animated Background Elements */}
+            <div className="absolute inset-0 opacity-20">
+                <GradientOrbs />
+            </div>
+            <div className="absolute inset-0 opacity-30">
+                <Sparkles count={15} />
+            </div>
+            <div className="absolute inset-0 bg-white/40 pointer-events-none" />
+            <div className="container mx-auto px-4 md:px-12 relative z-10">
 
                 <div className="grid lg:grid-cols-4 gap-20 mb-32">
 
@@ -16,10 +24,10 @@ export function Contact() {
                                 <span className="text-white font-serif font-bold text-lg">T</span>
                             </div>
                             <span className="text-[1.1rem] font-bold tracking-tight text-accent-navy">
-                                THORNE <span className="font-serif font-normal italic">CLINICAL</span>
+                                DENTAL <span className="font-serif font-normal italic">CARE</span>
                             </span>
                         </div>
-                        <h3 className="text-4xl font-serif mb-8 italic max-w-sm">"Defining the architecture of the perfect smile."</h3>
+                        <h3 className="text-4xl font-serif mb-8 italic max-w-sm">"Lorem ipsum dolor sit amet, consectetur adipiscing elit."</h3>
                         <div className="flex gap-4">
                             <a href="#" className="w-12 h-12 rounded-full border border-border-thin flex items-center justify-center hover:bg-accent-navy hover:text-white transition-all duration-500">
                                 <Instagram className="w-4 h-4" />
@@ -46,15 +54,15 @@ export function Contact() {
                         <ul className="space-y-6">
                             <li className="flex gap-4 items-start">
                                 <MapPin className="w-5 h-5 text-accent-navy shrink-0" />
-                                <span className="text-sm text-text-muted">742 Fifth Avenue, Luxury Row, New York, NY 10019</span>
+                                <span className="text-sm text-text-muted">123 Main Street, Suite 100, City, State 12345</span>
                             </li>
                             <li className="flex gap-4 items-start">
                                 <Phone className="w-5 h-5 text-accent-navy shrink-0" />
-                                <span className="text-sm text-text-muted">+1 (212) 555-8800</span>
+                                <span className="text-sm text-text-muted">+1 (555) 123-4567</span>
                             </li>
                             <li className="flex gap-4 items-start">
                                 <Mail className="w-5 h-5 text-accent-navy shrink-0" />
-                                <span className="text-sm text-text-muted">concierge@thorneclinical.com</span>
+                                <span className="text-sm text-text-muted">info@dentalcare.com</span>
                             </li>
                         </ul>
                     </div>
@@ -63,7 +71,7 @@ export function Contact() {
 
                 <div className="pt-16 border-t border-border-thin flex flex-col md:row items-center justify-between gap-8">
                     <p className="text-xs text-text-light tracking-widest font-bold uppercase">
-                        © {new Date().getFullYear()} THORNE CLINICAL GROUP. ALL RIGHTS RESERVED.
+                        © {new Date().getFullYear()} DENTAL CARE GROUP. ALL RIGHTS RESERVED.
                     </p>
                     <div className="flex gap-10">
                         <a href="#" className="text-xs text-text-light tracking-widest font-bold uppercase hover:text-accent-navy transition-colors">Security Details</a>
